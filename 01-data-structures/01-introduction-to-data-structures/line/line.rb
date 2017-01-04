@@ -30,9 +30,7 @@ class Line
 
   def search(person)
     foundperson = index(person)
-    if foundperson
-      members[foundperson]
-    end
+    foundperson ? members[foundperson] : nil
   end
 
   private

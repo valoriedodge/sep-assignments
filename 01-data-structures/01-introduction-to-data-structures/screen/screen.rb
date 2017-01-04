@@ -25,13 +25,7 @@ class Screen
   private
 
   def inbounds(x, y)
-    if (x >=0 && x <=width)
-      if (y >=0 && y <= height)
-        true
-      end
-    else
-      false
-    end
+    (x >=0 && x <=width) && (y >=0 && y <= height)
   end
 
 end
