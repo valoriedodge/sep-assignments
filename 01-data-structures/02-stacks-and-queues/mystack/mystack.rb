@@ -14,16 +14,11 @@ class MyStack
   def pop
     temp = self.top
     @stack.delete(temp)
-    len = @stack.length - 1
-    self.top = @stack[len]
+    self.top = @stack[@stack.length - 1]
     temp
   end
 
   def empty?
-    if @stack.length > 0
-      false
-    else
-      true
-    end
+    @stack.length <= 0
   end
 end

@@ -4,7 +4,7 @@ class MyQueue
 
   def initialize
     @queue = Array.new
-    @head = @queue.last
+    @head = @queue[0]
     @tail = @queue[0]
   end
 
@@ -16,13 +16,11 @@ class MyQueue
 
   def dequeue
     @queue.shift
+    @head = @queue[@queue.length - 1]
+    @tail = @queue[0]
   end
 
   def empty?
-    if @queue.length > 0
-      false
-    else
-      true
-    end
+    @queue.length > 0
   end
 end
