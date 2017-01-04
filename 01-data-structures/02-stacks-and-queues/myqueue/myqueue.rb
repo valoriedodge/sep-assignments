@@ -15,7 +15,7 @@ class MyQueue
   end
 
   def dequeue
-    temp = @queue.shift
+    @queue.shift
   end
 
   def empty?
