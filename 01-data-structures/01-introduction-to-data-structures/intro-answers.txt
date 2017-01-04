@@ -1,0 +1,11 @@
+How does your data structure allow developers to access and manipulate the data?
+
+The line data structure is a class with an array to hold the current make-up of the line. It can easily be accessed and manipulated using array methods and notation. The screen data structure is a class with a matrix for the pixel data. An array of arrays, the data can be similarly accessed using array methods and notation.
+
+If a developer wanted to find a specific element in your data structure, how would you search for it?
+
+A specific element can be found in both examples using the index method on the appropriate array.
+
+What other real-world data can each structure represent?
+
+An array can store any data that is list-like such as a list of students, a list of groceries, or a list of books to read. A matrix structure can be used to store data that is best represented by two variables such as which classes are offered which semester or what time will a train be at each station.
