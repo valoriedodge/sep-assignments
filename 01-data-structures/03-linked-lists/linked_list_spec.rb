@@ -47,7 +47,9 @@ RSpec.describe LinkedList, type: Class do
     end
 
     it "removes the head of a list properly" do
+      p llist
       llist.delete(n1)
+      p llist
       expect(llist.head).to eq n2
       expect(llist.head.next).to eq n3
       expect(llist.tail).to eq n3
