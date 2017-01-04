@@ -11,69 +11,58 @@ class LinkedList
 
   # This method creates a new `Node` using `data`, and inserts it at the end of the list.
   def add_to_tail(node)
-    if @tail
-      @tail.next = node
-    else
-      @head = node
-    end
+    @tail ? @tail.next = node : @head = node
     @tail = node
   end
 
   # This method removes the last node in the lists and must keep the rest of the list intact.
   def remove_tail
-    first = @head
-    if @head == @tail
+    current = @head
+    if current == @tail
       @head = nil
       @tail = nil
     else
-      while @head.next != nil
-        if @head.next == @tail
-          @head.next = nil
-          @tail = @head
+      while current.next != nil
+        if current.next == @tail
+          current.next = nil
+          @tail = current
         else
-          @head = @head.next
+          current = current.next
         end
       end
-      @head = first
     end
   end
 
   # This method prints out a representation of the list.
   def print
-    first = @head
-    list = ""
-    while @head
-      list += @head.data + "\n"
-      @head = @head.next
+    node = @head
+    while node
+      puts node.data
+      node = node.next
     end
-    p list
-    @head = first
   end
 
   # This method removes `node` from the list and must keep the rest of the list intact.
   def delete(node)
-    first = @head
-    if @head == node
-      @head = nil
-      @tail = nil
-    elsif @tail == node
+    current = @head
+    if @tail == node
       remove_tail
+    elsif @head == node
+      @head = @head.next
     else
-      while @head.next != nil
-        if @head.next == node
-          @head.next = @head.next.next
+      while current.next != nil
+        if current.next == node
+          current.next = current.next.next
         else
-          @head = @head.next
+          current = current.next
         end
       end
-      @head = first
     end
-
   end
 
   # This method adds `node` to the front of the list and must set the list's head to `node`.
   def add_to_front(node)
-    if @head
+    if @head != nil
       first = @head
       @head = node
       @head.next = first
