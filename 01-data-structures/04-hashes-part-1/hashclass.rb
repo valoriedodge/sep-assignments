@@ -1,3 +1,5 @@
+require_relative 'hash_item'
+
 class HashClass
 
   def initialize(size)
@@ -5,23 +7,56 @@ class HashClass
   end
 
   def []=(key, value)
+    index = index(key, @items.length)
+    if @items[index] != nil
+      resize
+      @items[key]= value
+    else
+      @items[index]= HashItem.new(key, value)
+    end
   end
 
 
   def [](key)
+    @items.each do |element|
+      if element != nil
+        if element.key == key
+          return element.value
+        end
+      end
+    end
   end
 
   def resize
+    newSize = size * 2
+    tempArray = Array.new(newSize)
+    @items[newSize - 1] = nil
+    @items.each do |element|
+      if element != nil
+        newIndex = index(element.key, newSize)
+        if tempArray[newIndex] != nil
+          resize
+          return
+        else
+          tempArray[newIndex]= element.value
+        end
+      end
+    end
+    @items = tempArray
   end
 
   # Returns a unique, deterministically reproducible index into an array
   # We are hashing based on strings, let's use the ascii value of each string as
   # a starting point.
   def index(key, size)
+    asciiArray = key.bytes
+    answer = asciiArray.join("").to_i % size
+    return answer
   end
 
   # Simple method to return the number of items in the hash
   def size
+    @items.length
   end
 
 end
