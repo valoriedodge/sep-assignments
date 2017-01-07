@@ -7,24 +7,23 @@ class HashClass
   end
 
   def []=(key, value)
-    index = index(key, @items.length)
-    if @items[index] != nil
-      resize
-      @items[key]= value
+    key_index = index(key, @items.length)
+    if @items[key_index] != nil
+      puts "value: " + @items[key_index].value + " end"
+      if @items[key_index].value != value
+        resize
+        # I want to recursively call this function but I don't know how.
+        # @items[key]= value)
+      end
     else
-      @items[index]= HashItem.new(key, value)
+      @items[key_index] = HashItem.new(key, value)
     end
   end
 
-
   def [](key)
-    @items.each do |element|
-      if element != nil
-        if element.key == key
-          return element.value
-        end
-      end
-    end
+    key_index = index(key, @items.length)
+    puts "[](key) " + @items[key_index]
+    @items[key_index]
   end
 
   def resize

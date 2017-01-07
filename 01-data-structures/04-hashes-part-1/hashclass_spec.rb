@@ -43,15 +43,15 @@ RSpec.describe HashClass, type: Class do
   describe "hash[key] = value" do
     it "does not resize the array when a collision occurs and the values match" do
       hash = HashClass.new(1)
-      hash["key"] = "value"
+      hash["key"] = "valueOne"
       expect(hash.size).to eq 1
-      hash["key"] = "value"
+      hash["key"] = "valueOne"
       expect(hash.size).to eq 1
     end
 
     it "resizes the array when a collision occurs and the values do not match" do
       hash = HashClass.new(1)
-      hash["key"] = "value"
+      hash["key"] = "valueTest"
       expect(hash.size).to eq 1
       hash["key"] = "different"
       expect(hash.size).to eq 2
