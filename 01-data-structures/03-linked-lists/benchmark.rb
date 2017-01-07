@@ -4,7 +4,12 @@ require_relative 'linked_list'
 
 n = 10000
 arr = []
+nodeArr = []
 llist = LinkedList.new
+(0..n).each do |num|
+  node = Node.new(num)
+  nodeArr[num] = node
+end
 
 Benchmark.bm do |x|
   x.report("10,000 Array") {
@@ -13,9 +18,8 @@ Benchmark.bm do |x|
     end
   }
   x.report("10,000 LList") {
-    (0..n).each do |num|
-      num = Node.new(num)
-      llist.add_to_tail(num)
+    nodeArr.each do |node|
+      llist.add_to_tail(node)
     end
   }
   x.report("5,000th Array") {
@@ -23,12 +27,8 @@ Benchmark.bm do |x|
   }
   x.report("5,000th LList") {
     current = llist.head
-    while current.next != nil
-      if current.next.data == 5000
-        break
-      else
-        current = current.next
-      end
+    5000.times do |i|
+      current = current.next
     end
   }
   x.report("Delete 5,000th") {
@@ -36,13 +36,11 @@ Benchmark.bm do |x|
   }
   x.report("Delete 5,000th") {
     current = llist.head
-    while current.next != nil
-      if current.next.data == 5000
-        current.next = current.next.next
-        break
-      else
-        current = current.next
-      end
+    previous = nil
+    5000.times do |i|
+      previous = current
+      current = current.next
     end
+    previous.next = current.next
   }
 end
