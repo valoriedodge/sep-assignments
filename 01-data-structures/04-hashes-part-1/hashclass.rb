@@ -8,22 +8,20 @@ class HashClass
 
   def []=(key, value)
     key_index = index(key, @items.length)
-    if @items[key_index] != nil
-      puts "value: " + @items[key_index].value + " end"
-      if @items[key_index].value != value
-        resize
-        # I want to recursively call this function but I don't know how.
-        # @items[key]= value)
-      end
-    else
-      @items[key_index] = HashItem.new(key, value)
+    if @items[key_index] != nil && @items[key_index].key == key && @items[key_index].value == value
+      return
     end
+
+    while @items[key_index] != nil && @items[key_index].key != key
+      resize
+      key_index = index(key, @items.length)
+    end
+    @items[key_index]= HashItem.new(key, value)
   end
 
   def [](key)
     key_index = index(key, @items.length)
-    puts "[](key) " + @items[key_index]
-    @items[key_index]
+    @items[key_index].value
   end
 
   def resize
@@ -37,20 +35,19 @@ class HashClass
           resize
           return
         else
-          tempArray[newIndex]= element.value
+          tempArray[newIndex] = element
         end
       end
     end
     @items = tempArray
+    complete = true
   end
 
   # Returns a unique, deterministically reproducible index into an array
   # We are hashing based on strings, let's use the ascii value of each string as
   # a starting point.
   def index(key, size)
-    asciiArray = key.bytes
-    answer = asciiArray.join("").to_i % size
-    return answer
+    key.sum % size
   end
 
   # Simple method to return the number of items in the hash
