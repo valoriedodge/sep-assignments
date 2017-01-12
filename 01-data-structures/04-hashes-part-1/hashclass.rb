@@ -27,11 +27,11 @@ class HashClass
   def resize
     newSize = size * 2
     tempArray = Array.new(newSize)
-    @items[newSize - 1] = nil
     @items.each do |element|
       if element != nil
         newIndex = index(element.key, newSize)
         if tempArray[newIndex] != nil
+          @items[newSize - 1] = nil
           resize
           return
         else
@@ -40,7 +40,6 @@ class HashClass
       end
     end
     @items = tempArray
-    complete = true
   end
 
   # Returns a unique, deterministically reproducible index into an array
