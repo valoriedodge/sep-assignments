@@ -11,8 +11,8 @@ class OpenAddressing
       return
     end
 
-    while @items[key_index] != nil && @items[key_index].key != key
-      resize
+    if @items[key_index] != nil && @items[key_index].key != key
+      key_index = next_open_index(key_index)
       key_index = index(key, size)
     end
     @items[key_index]= Node.new(key, value)
