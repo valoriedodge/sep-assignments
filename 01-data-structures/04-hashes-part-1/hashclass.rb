@@ -7,20 +7,20 @@ class HashClass
   end
 
   def []=(key, value)
-    key_index = index(key, @items.length)
+    key_index = index(key, size)
     if @items[key_index] != nil && @items[key_index].key == key && @items[key_index].value == value
       return
     end
 
     while @items[key_index] != nil && @items[key_index].key != key
       resize
-      key_index = index(key, @items.length)
+      key_index = index(key, size)
     end
     @items[key_index]= HashItem.new(key, value)
   end
 
   def [](key)
-    key_index = index(key, @items.length)
+    key_index = index(key, size)
     @items[key_index].value
   end
 
