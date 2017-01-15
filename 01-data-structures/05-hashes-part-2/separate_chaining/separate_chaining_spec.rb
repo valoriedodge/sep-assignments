@@ -33,8 +33,12 @@ RSpec.describe SeparateChaining, type: Class do
       hash = SeparateChaining.new(4)
       hash["key"] = "value"
       expect(hash.size).to eq 4
+      expect(hash["key"]).to eq "value"
+      expect(hash["key"]).to_not eq "second value"
       hash["key"] = "second value"
       expect(hash.size).to eq 4
+      expect(hash["key"]).to_not eq "value"
+      expect(hash["key"]).to eq "second value"
     end
 
     it "sets the value of key to value" do
@@ -65,8 +69,7 @@ RSpec.describe SeparateChaining, type: Class do
 
       # Load factor should be .5 when two items are added
       expect(h.load_factor).to eq 0.5
-      h["keytwo"] = "value"
-
+      h["keythree"] = "value"
       # Load factor goes down to .375 (3/8) since when third item is added, load factor goes to .75
       # then the resize is triggered and load factor is recalculated
       expect(h.load_factor).to eq 0.375
