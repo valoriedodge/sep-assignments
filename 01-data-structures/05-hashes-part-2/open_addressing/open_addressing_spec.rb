@@ -34,7 +34,7 @@ RSpec.describe OpenAddressing, type: Class do
       hash = OpenAddressing.new(4)
       hash["key"] = "value"
       expect(hash.size).to eq 4
-      hash["key"] = "second value"
+      hash["keyTwo"] = "second value"
       expect(hash.size).to eq 4
     end
 
@@ -43,7 +43,7 @@ RSpec.describe OpenAddressing, type: Class do
       hash["key"] = "value"
       expect(hash.size).to eq 1
       hash["key"] = "second value"
-      expect(hash.size).to eq 2
+      expect(hash.size).to eq 1
     end
 
     it "sets the value of key to value" do
@@ -78,8 +78,10 @@ RSpec.describe OpenAddressing, type: Class do
       movies["A New Hope"] = "Average"
       movies["Empire Strikes Back"] = "Excellent"
       movies["Return of the Jedi"] = "The Best"
+      movies.printMe
       movies.resize
       expect(movies.size).to eq 12
+      movies.printMe
       expect(movies["A New Hope"]).to eq "Average"
       expect(movies["Empire Strikes Back"]).to eq "Excellent"
       expect(movies["Return of the Jedi"]).to eq "The Best"
