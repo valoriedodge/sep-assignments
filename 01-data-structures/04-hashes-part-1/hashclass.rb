@@ -16,7 +16,11 @@ class HashClass
       resize
       key_index = index(key, size)
     end
-    @items[key_index]= HashItem.new(key, value)
+    if @items[key_index] != nil && @items[key_index].key == key
+      @items[key_index].value = value
+    else
+      @items[key_index]= HashItem.new(key, value)
+    end
   end
 
   def [](key)
