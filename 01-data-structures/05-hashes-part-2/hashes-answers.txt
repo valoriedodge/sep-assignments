@@ -1,0 +1,21 @@
+More collision strategies:
+
+Hopscotch hashing
+
+Hopscotch hashing is a combination of cuckoo hashing and linear probing. It defines a group of buckets near the original hash bucket where an entry will always be found, limiting the number of buckets to search for a given entry. If there is not an empty bucket for the new hash value in the given group, the algorithm will find an empty bucket and sequentially displace current values to open a spot in the correct group of buckets.
+
+Robin Hood hashing
+
+Robing Hood hashing is a form of double hashing collision resolution, however, it only displaces the current key depending on the number of its probe count compared to the current key. I don't really understand the reasoning behind this.
+
+Coelesced hashing
+
+Coelesced hashing is a combination of chaining and open addressing. If there is a collision, it will find the next available open spot and link to that spot within the hash.
+
+2-Choice Hashing
+
+2-Choice hashing uses two choices for the hash function and puts the new hash value in the bucket with the least amount of values.
+
+Valorie hashing
+
+Create another 100 item array to store all of the hash collision values, once it is full, resize everything and empty the collision array.

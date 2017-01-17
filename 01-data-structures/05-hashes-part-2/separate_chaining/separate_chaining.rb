@@ -80,6 +80,7 @@ class SeparateChaining
 
   def printMe
     puts "Items length #{size}"
+    puts "Load Factor #{load_factor}"
     @items.each_with_index do |llist, index|
       current = llist.head
       puts "LList at #{index}"
