@@ -52,7 +52,7 @@ class OpenAddressing
           return @items[current].value
         else
           #increment current to loop through the entire array
-          current == size - 1 ? current = 0 : current += 1
+          current = (current + 1) % size
         end
       end
     end
@@ -69,17 +69,16 @@ class OpenAddressing
   # Given an index, find the next open index in @items
   def next_open_index(index)
     current = index
-    #if @items has only one item, return nil
+    #if @items has only one item, return -1
     if size == 1
       return -1
-    else
-      current += 1
     end
+    current += 1
     while current != index
       if @items[current] == nil
         return current
       else
-        current == size - 1 ? current = 0 : current += 1
+        current = (current + 1) % size
       end
     end
     return -1
