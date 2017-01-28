@@ -27,14 +27,12 @@ class OpenAddressing
     if @items[key_index].key != key
       key_index = next_open_index(key_index)
     end
-    #if key_index is -1, resize until key_index is not -1
-    while key_index == -1
-      resize
-      key_index = index(key, size)
-      #Check to see if key_index is empty in the array, if not, find the next open index
-      if @items[key_index] != nil
-        key_index = next_open_index(key_index)
-      end
+    #if key_index is -1, resize
+    resize
+    key_index = index(key, size)
+    #Check to see if key_index is empty in the array, if not, find the next open index
+    if @items[key_index] != nil
+      key_index = next_open_index(key_index)
     end
     #Insert item at the new key_index
     @items[key_index]= Node.new(key, value)
@@ -103,26 +101,13 @@ class OpenAddressing
   # Resize the hash
   def resize
     newSize = size * 2
-    collisionCheck = true
-    while collisionCheck
-      tempArray = Array.new(newSize)
-      #for loop to reasign every element in @items to tempArray
-      for i in 0..size-1
-        element = @items[i]
-        if element != nil
-          newIndex = index(element.key, newSize)
-          #if there is a collision in tempArray, double the size and break for loop
-          if tempArray[newIndex] != nil
-            newSize = newSize * 2
-            break
-          else
-            tempArray[newIndex] = element
-          end
-        end
-        #check to see if it made it through the entire array, if so end while loop with collisionCheck
-        if i == size-1
-          collisionCheck = false
-        end
+    tempArray = Array.new(newSize)
+    #for loop to reasign every element in @items to tempArray
+    for i in 0..size-1
+      element = @items[i]
+      if element != nil
+        newIndex = index(element.key, newSize)
+        tempArray[newIndex] = element
       end
     end
     @items = tempArray
