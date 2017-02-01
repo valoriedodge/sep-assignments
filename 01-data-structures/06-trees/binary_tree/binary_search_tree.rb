@@ -9,148 +9,166 @@ class BinarySearchTree
   end
 
   def insert(root, node)
-    current = root
-    # finished = false
-    # while finished != true
-    if node.rating < current.rating
-      if current.left == nil
-        current.left = node
-        # finished = true
+    if node.rating < root.rating
+      if root.left.nil?
+        root.left = node
         return
       else
-        current = current.left
+        root = root.left
       end
-    elsif node.rating >= current.rating
-      if current.right == nil
-        current.right = node
-        # finished = true
+    elsif node.rating >= root.rating
+      if root.right.nil?
+        root.right = node
         return
       else
-        current = current.right
+        root = root.right
       end
     end
-    insert(current, node)
-    # end
-
+    insert(root, node)
   end
 
   # Recursive Depth First Search
   def find(root, data)
-    current = root
-    if data == nil
-      return nil
-    end
-    stack = MyStack.new()
-    while current != nil
-      if current.title == data
-        return current
-      else
-        if current.right != nil
-          if current.left != nil
-            stack.push(current.left)
-          end
-          current = current.right
-        elsif current.left != nil
-          current = current.left
-        elsif stack.empty? != true
-          current = stack.pop
-        else
-          current = nil
-        end
-      end
-    end
+    return nil if data.nil?
+    return root if root && root.title == data
+    found = find(root.right, data) if root.right
+    found = find(root.left, data) if root.left && found.nil?
+    found ? found : nil
   end
 
   def delete(root, data)
-    current = root
-    if data == nil
-      return nil
-    end
-    stack = MyStack.new()
-    while current != nil
-      if @root.title == data
-        @root = @root.right
-      elsif current.right != nil && current.right.title == data
-        previous_left = nil
-        if current.right.left != nil
-          previous_left = current.right.left
-        end
-        current.right = current.right.right
-        current = current.right
-        # previous.right = current.right
-        # temp = current.left
-        while previous_left != nil
-          if current.left != nil
-              left_node = current.left
-              current.left = previous_left
-              if current.right != nil
-                current = current.right
-                previous_left = left_node
-              else
-              end
-          elsif current.left == nil
-            current.left = previous.left
-            previous_left == nil
-          end
-        end
-        if
-
-      elsif current.left != nil && current.left.title == data
-        previous = current
-        current = current.left
-        previous.right = current
-        if current.right != nil
-          while current.right != nil
-            left_node = current.left
-            current = current.right
-            current.left = left_node
-          end
-        end
-        # Call recursively until we find the value to delete
-      else
-        if current.right != nil
-          if current.left != nil
-            stack.push(current.left)
-          end
-          current = current.right
-        elsif current.left != nil
-          current = current.left
-        elsif stack.empty? != true
-          current = stack.pop
+    return nil if data.nil?
+    # If we are deleting the root we need to reassign @root
+    if @root == root && root.title == data
+      if root.left && root.right
+        left_root = root.left
+        if root.right.left
+          right_root = root.right
+          @root = delete_min_node(root.right)
+          @root.right = right_root
         else
-          current = nil
+          @root = root.right
         end
+        @root.left = left_root
+        return
+      elsif root.right
+        @root = root.right
+        return
+      elsif root.left
+        @root = root.left
+        return
+      else
+        @root = nil
+        return
       end
     end
+    parent = root if root.right && root.right.title == data
+    parent = root if root.left && root.left.title == data
+    if parent
+      if parent.right && parent.right.title == data
+        delete_right(parent, parent.right)
+      end
+      if parent.left && parent.left.title == data
+        delete_left(parent, parent.left)
+      end
+    end
+    parent = delete(root.right, data) if root.right && parent.nil?
+    parent = delete(root.left, data) if root.left && parent.nil?
+    parent ? parent : nil
 
   end
 
   # Recursive Breadth First Search
   def printf(children=nil)
     @root == nil ? return : current = @root
-    current = @root
     queue = MyQueue.new()
-    if current != nil
-      puts current.title + ": " + current.rating.to_s
-      if current.left != nil
-        puts current.left.title + ": " + current.left.rating.to_s
-        queue.enqueue(current.left)
-      end
-      if current.right != nil
-        puts current.right.title + ": " + current.right.rating.to_s
-        queue.enqueue(current.right)
-      end
-    end
+    queue.enqueue(@root)
     while queue.empty?
       current = queue.dequeue
+      puts current.title + ": " + current.rating.to_s
       if current.left != nil
-        puts current.left.title + ": " + current.left.rating.to_s
         queue.enqueue(current.left)
       end
       if current.right != nil
-        puts current.right.title + ": " + current.right.rating.to_s
         queue.enqueue(current.right)
       end
     end
   end
+
+  def rotate(parent, current, previous_left)
+    return if previous_left.nil?
+    if current.right.nil? && current.left
+      temp = current
+      parent.right = current.left
+      rotate(parent, parent.right, previous_left)
+      insert(@root, temp)
+    else
+      child_left = current.left
+      current.left = previous_left
+      if child_left
+        rotate(current, current.right, child_left)
+      end
+    end
+  end
+
+  def delete_left(parent, node)
+    if node.left && node.right
+      left_node = node.left
+      if node.right.left
+        right_node = node.right
+        parent.left = delete_min_node(node.right)
+        parent.left.right = right_node
+      else
+        parent.left = node.right
+      end
+      parent.left.left = left_node
+      return
+    elsif node.right
+      parent.left = node.right
+      return
+    elsif node.left
+      parent.left = node.left
+      return
+    else
+      parent.left = nil
+      return
+    end
+  end
+
+  def delete_right(parent, node)
+    if node.left && node.right
+      left_node = node.left
+      if node.right.left
+        right_node = node.right
+        parent.right = delete_min_node(node.right)
+        parent.right.right = right_node
+      else
+        parent.right = node.right
+      end
+      parent.right.left = left_node
+      return
+    elsif node.right
+      parent.right = node.right
+      return
+    elsif node.left
+      parent.right = node.left
+      return
+    else
+      parent.right = nil
+      return
+    end
+  end
+
+  def delete_min_node(node)
+    if node.left
+      if node.left.left.nil?
+        target = node.left
+        node.left = nil
+        return target
+      else
+        delete_min_node(node.left)
+      end
+    end
+  end
+
 end

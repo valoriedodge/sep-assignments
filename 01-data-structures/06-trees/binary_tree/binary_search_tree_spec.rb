@@ -137,7 +137,26 @@ RSpec.describe BinarySearchTree, type: Class do
     it "properly deletes a right-right node" do
       tree.insert(root, empire)
       tree.insert(root, mad_max_2)
+      tree.printf
       tree.delete(root, mad_max_2.title)
+      tree.printf
+      expect(tree.find(root, mad_max_2.title)).to be_nil
+    end
+
+    it "properly deletes a node" do
+      tree.insert(root, hope)
+      tree.insert(root, empire)
+      tree.insert(root, jedi)
+      tree.insert(root, martian)
+      tree.insert(root, pacific_rim)
+      tree.insert(root, inception)
+      tree.insert(root, braveheart)
+      tree.insert(root, shawshank)
+      tree.insert(root, district)
+      tree.insert(root, mad_max_2)
+      tree.printf
+      tree.delete(root, mad_max_2.title)
+      tree.printf
       expect(tree.find(root, mad_max_2.title)).to be_nil
     end
   end
