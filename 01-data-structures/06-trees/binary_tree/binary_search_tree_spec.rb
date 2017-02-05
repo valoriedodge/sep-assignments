@@ -96,6 +96,53 @@ RSpec.describe BinarySearchTree, type: Class do
     end
   end
 
+  describe "#find_value(data)" do
+    it "handles nil gracefully" do
+      tree.insert(root, empire)
+      tree.insert(root, mad_max_2)
+      expect(tree.find_value(root, nil)).to eq nil
+    end
+
+    it "properly finds a root" do
+      tree.insert(root, pacific_rim)
+      expect(tree.find_value(root, root.rating).title).to eq "The Matrix"
+    end
+
+    it "properly finds a left node" do
+      tree.insert(root, pacific_rim)
+      expect(tree.find_value(root, pacific_rim.rating).title).to eq "Pacific Rim"
+    end
+
+    it "properly finds a left-left node" do
+      tree.insert(root, braveheart)
+      tree.insert(root, pacific_rim)
+      expect(tree.find_value(root, pacific_rim.rating).title).to eq "Pacific Rim"
+    end
+
+    it "properly finds a left-right node" do
+      tree.insert(root, donnie)
+      tree.insert(root, inception)
+      expect(tree.find_value(root, inception.rating).title).to eq "Inception"
+    end
+
+    it "properly finds a right node" do
+      tree.insert(root, district)
+      expect(tree.find_value(root, district.rating).title).to eq "District 9"
+    end
+
+    it "properly finds a right-left node" do
+      tree.insert(root, hope)
+      tree.insert(root, martian)
+      expect(tree.find_value(root, martian.rating).title).to eq "The Martian"
+    end
+
+    it "properly finds a right-right node" do
+      tree.insert(root, empire)
+      tree.insert(root, mad_max_2)
+      expect(tree.find_value(root, mad_max_2.rating).title).to eq "Mad Max 2: The Road Warrior"
+    end
+  end
+
   describe "#delete(data)" do
     it "handles nil gracefully" do
       expect(tree.delete(root, nil)).to eq nil

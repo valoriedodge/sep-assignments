@@ -9,6 +9,7 @@ class BinarySearchTree
   end
 
   def insert(root, node)
+    return if root == node
     if node.rating < root.rating
       if root.left.nil?
         root.left = node
@@ -33,6 +34,17 @@ class BinarySearchTree
     return root if root && root.title == data
     found = find(root.right, data) if root.right
     found = find(root.left, data) if root.left && found.nil?
+    found ? found : nil
+  end
+
+  def find_value(root, data)
+    return nil if data.nil?
+    return root if root && root.rating == data
+    if root && root.rating < data
+      found = find_value(root.right, data) if root.right
+    elsif root && root.rating >= data
+      found = find_value(root.left, data) if root.left
+    end
     found ? found : nil
   end
 
