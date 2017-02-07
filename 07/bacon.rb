@@ -9,7 +9,7 @@ class Baconator
     # For each film that the given actor is in try to find a connection with Kevin Bacon
     for x in 0..(actor_node_films.length -1)
       current_film = hash_films_to_array(actor_node.film_actor_hash)[x]
-      path = [current_film]
+      path = [actor_node.name]
       while found.nil? && path.length < 7
         # Check for the first actor/actress in the film to see if there is a film in common
         count = 0
@@ -24,7 +24,7 @@ class Baconator
           found = find_intersection(first_listed_actor)
           actor_node = first_listed_actor
           current_film = hash_films_to_array(actor_node.film_actor_hash)[0]
-          path << current_film
+          path << actor_node.name
         else
           break
         end
